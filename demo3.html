@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div ng-controller="ctrl">
+			<img ng-src={{src}} />
+		</div>
+	</body>
+	<script type="text/javascript" src="libs/js/angular.min.js" ></script>
+	<script>
+		var app =angular.module("myApp",[]);
+		app.controller("ctrl",function($scope){
+			$scope.src="libs/img/barcode.png";
+		});
+	</script>
+</html>

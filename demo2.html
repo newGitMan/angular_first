@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+
+		<div ng-controller="myCtrl">
+			{{"名字是"+user.username+"，性别是"+user.sex}}
+		</div>
+		
+	</body>
+	<script type="text/javascript" src="libs/js/angular.min.js" ></script>
+	<script>
+		var app=angular.module("myApp",[]);
+		app.controller("myCtrl",function($scope){
+			$scope.user={
+				"userName":"周星星",
+				"sex":"male",
+				"age":55,
+				"tel":"13910JQKA",				
+			}
+		});
+		
+	</script>
+</html>

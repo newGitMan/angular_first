@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body ng-controller="ctrl">
+		<select ng-model="car">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+		</select>
+		{{car}}
+		<input ng-model="text" type="text" />
+		{{text}}
+	</body>
+	<script type="text/javascript" src="libs/js/angular.min.js" ></script>
+	<script>
+		var app =angular.module("app",[]);
+		app.controller("ctrl",function($scope){
+			$scope.car="2";
+			$scope.text="帅的一笔";
+		}); 
+	</script>
+</html>
