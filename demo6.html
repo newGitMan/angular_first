@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="libs/css/bootstrap.min.css" />
+		<style>
+			.table-striped>tbody>tr:nth-child(2){
+				background:#f66;
+				color:#fff;
+				font-weight:bold;
+			}
+			tr>td{
+				text-align:center;
+			}
+		</style>
+	</head>
+	<body ng-controller="ctrl">
+		<table class="table table-bordered table-striped tableHeader">
+			<tr>
+				<td>每页显示数量</td>
+				<td colspan="1">
+					<select name="" ng-model="selectNum">
+						<option value="12">12</option>
+						<option value="24">24</option>
+						<option value="36">36</option>
+					</select>
+				</td>
+				<td><button class="btn btn-default btn-xs" ng-click="prevPage()">上一页</button></td>
+				<td><input ng-model="pageCode"/></td>
+				<td><button class="btn btn-primary btn-xs" ng-click="nextPage()">下一页</button></td>
+				<td><input ng-model="searchText" /></td>
+			</tr>
+			<tr>
+				<td>number</td>
+				<td ng-click="sortData('firstName')">firstName</td>
+				<td ng-click="sortData('lastName')">lastName</td>
+				<td>gender</td>
+				<td>salary</td>
+				<td>birthday</td>
+				<td>likeNum</td>
+				<td>unLikeNum</td>				
+				<td>likeBtn</td>
+				<td>unLikeBtn</td>
+			</tr>
+			<tr ng-repeat="user in users | limitTo:selectNum :pageCode |orderBy:sortStr:reverseData | filter:searchText">
+				<td>{{$index+1}}</td>
+				<td>{{user.firstName |lowercase}}</td>
+				<td>{{user.lastName |uppercase}}</td>
+				<td>{{user.gender |uppercase}}</td>
+				<td>{{user.salary|currency:($index==4?"$":"￥")}}</td>
+				<td>{{user.birthday | date :"yyyy-MM-dd"}}</td>
+				<td>{{user.likeNum}}</td>
+				<td>{{user.unLikeNum}}</td>
+				<td><button class="btn btn-success btn-xs" ng-click="countLikeNum(user,$index)">喜欢</button></td>
+				<td><button class="btn btn-danger btn-xs" ng-click="countUnLikeNum(user,$index)">不喜欢</button></td>
+			</tr>
+			
+		</table>
+				<form class="form-horizontal col-xs-6" role="form">
+				  <div class="form-group">
+				    <label for="firstName" class="col-sm-2 control-label">firstName</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" id="firstName" placeholder="firstName">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="lastName" class="col-sm-2 control-label">lastName</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" id="lastName" placeholder="lastName">
+				    </div>
+				  </div>
+				 
+				  <div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <button type="button" class="btn btn-primary" ng-click="addUser()">添加</button>
+				    </div>
+				  </div>
+				</form>
+		
+	</body>
+	<script src="libs/js/jquery-1.11.3.js"></script>
+	<script type="text/javascript" src="libs/js/bootstrap.js" ></script>
+	<script type="text/javascript" src="libs/js/angular.min.js" ></script>
+	<script>
+		var app=angular.module("myApp",[]);
+		app.controller("ctrl",function($scope){
+			var users = [
+				{
+					"firstName":"FanG",
+					"lastName":"vane",
+					"gender":"male",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":10000,
+					"birthday":new Date('1998-01-01')
+				},
+				{
+					"firstName":"Sara",
+					"lastName":"rose",
+					"gender":"female",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":20000,
+					"birthday":new Date('1998-01-01')
+				},
+				{
+					"firstName":"Mark",
+					"lastName":"bear",
+					"gender":"male",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":30000,
+					"birthday":new Date('1998-01-01')
+				},
+				{
+					"firstName":"Pam",
+					"lastName":"hot",
+					"gender":"male",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":40000,
+					"birthday":new Date('1998-01-01')
+				},
+				{
+					"firstName":"Wang",
+					"lastName":"lao",
+					"gender":"male",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":1000,
+					"birthday":new Date('1998-01-01')
+				}
+			];
+			var users1 = [
+				{
+					"firstName":"FanG1",
+					"lastName":"vane1",
+					"gender":"male1",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":10000,
+					"birthday":new Date('1998-01-01')
+				},
+				{
+					"firstName":"Sara1",
+					"lastName":"rose1",
+					"gender":"female1",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":20000,
+					"birthday":new Date('1998-01-01')
+				},
+				{
+					"firstName":"Mark1",
+					"lastName":"bear1",
+					"gender":"male1",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":30000,
+					"birthday":new Date('1998-01-01')
+				},
+				{
+					"firstName":"Pam1",
+					"lastName":"hot1",
+					"gender":"male1",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":40000,
+					"birthday":new Date('1998-01-01')
+				},
+				{
+					"firstName":"Wang1",
+					"lastName":"lao1",
+					"gender":"male1",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":1000,
+					"birthday":new Date('1998-01-01')
+				}
+			];
+			$scope.users=users;
+			//var len=users.length;
+			$scope.selectNum=12;
+			$scope.pageCode=1;
+			
+			if(localStorage.getItem("users")){
+				$scope.users=JSON.parse(localStorage.getItem("users"));
+			}else{
+				$scope.users=users;
+			}
+			$scope.countLikeNum=function(user,id){
+				user.likeNum++;
+				//console.log($scope.users);
+				localStorage.setItem("users",JSON.stringify($scope.users));
+			}
+			$scope.countUnLikeNum=function(user,id){
+				user.unLikeNum++;
+				localStorage.setItem("users",JSON.stringify($scope.users));
+			}
+			
+			
+			$scope.prevPage=function(){
+				$scope.users=users;
+			}
+			$scope.nextPage=function(){
+				$scope.users=users1;
+			}
+			
+			$scope.addUser = function(){
+				var firstName = $("#firstName").val();
+				var lastName = $("#lastName").val();
+				var obj = {
+					"firstName":firstName,
+					"lastName":lastName,
+					"gender":"male",
+					"likeNum":0,
+					"unLikeNum":0,
+					"salary":1000,
+					"birthday":new Date('1998-01-01')
+				}
+				users.push(obj);
+				$scope.users = users;
+			}
+			
+			$scope.sortStr = "firstName";
+			$scope.reverseData = false;//默认不能反向
+			$scope.sortData = function(str){
+				//orderBy:'name'表示按照正序排列，如果是"-name"，就是倒叙排列
+				//orderBy:'name'：reverseData   reverseData为true即正序，反之则倒叙
+				//每一列都有自己的正序或者倒叙规则
+				//先判断是不是自己，如果是自己，若为真，按照自己的变为自己的反向，其余列都为false
+				$scope.reverseData = ($scope.sortStr == str)?!$scope.reverseData :"false";
+				//按照哪一个字段进行排序
+				$scope.sortStr = str;
+			}
+			
+			$scope.getClass = function(str){
+				if($scope.sortStr == str){
+					return $scope.reverseData ? "glyphicon glyphicon-chevron-up":"glyphicon glyphicon-chevron-down"
+				}
+//				else{
+//					return "glyphicon glyphicon-chevron-down";
+//				}
+			}
+		});
+	</script>
+</html>
